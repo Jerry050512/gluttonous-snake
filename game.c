@@ -2,12 +2,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+#include <locale.h>
 
 #include "macros.h"
 #include "utils.h"
 #include "snake.h"
 
 int main() {
+    #if defined(_WIN32)
+    system("chcp 65001");
+    #endif
+    setlocale(LC_ALL, "");
     Snake snake;
     Point food;
     int score = 0;

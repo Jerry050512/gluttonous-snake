@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
+#include <wchar.h>
 #ifdef _WIN32
 #include <conio.h>
 #include <windows.h>
@@ -32,14 +34,14 @@ void drawBoard(Snake *snake, Point *food) {
                 }
             }
             if (isBody) {
-                printf("O");
+                wprintf(SNAKE_BODY);
             } else if (food->x == x && food->y == y) {
-                printf("*");
+                wprintf(FOOD);
             } else {
-                printf("-");
+                wprintf(EMPTY);
             }
         }
-        printf("\n");
+        wprintf(L"\n");
     }
 }
 
