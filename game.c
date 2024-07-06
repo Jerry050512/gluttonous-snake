@@ -12,7 +12,7 @@ int main() {
     #if defined(_WIN32)
     system("chcp 65001");
     #endif
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "chs");
     Snake snake;
     Point food;
     int score = 0;
