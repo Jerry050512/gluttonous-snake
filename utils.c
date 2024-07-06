@@ -2,21 +2,23 @@
 #include <unistd.h>
 #include <termios.h>
 #include <fcntl.h>
+#include <locale.h>
+#include <wchar.h>
 
 void gotoxy(int x, int y) {
-    printf("\033[%d;%dH", y + 1, x + 1);
+    wprintf(L"\033[%d;%dH", y + 1, x + 1);
 }
 
 void hideCursor() {
-    printf("\033[?25l");
+    wprintf(L"\033[?25l");
 }
 
 void showCursor() {
-    printf("\033[?25h");
+    wprintf(L"\033[?25h");
 }
 
 void clearScreen() {
-    printf("\033[2J");
+    wprintf(L"\033[2J");
 }
 
 int kbhit(void) {

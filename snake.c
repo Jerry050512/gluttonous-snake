@@ -97,6 +97,7 @@ int eatFood(Snake *snake, Point *food) {
         snake->length++;
         food->x = rand() % WIDTH;
         food->y = rand() % HEIGHT;
+        // BUG: food refresh in the snake body
         return 1;
     }
     return 0;
