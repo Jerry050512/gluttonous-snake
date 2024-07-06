@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <conio.h>
+#include <windows.h>
+#endif
 
 #include "structs.h"
 #include "macros.h"
@@ -75,7 +79,11 @@ int checkCollision(Snake *snake) {
 }
 
 void updateDirection(Snake *snake) {
+    #if defined(_WIN32)
+    int ch = _getch();
+    #else
     int ch = getchar();
+    #endif
     switch (ch) {
         case 'w':
             if (snake->direction != DOWN) snake->direction = UP;
