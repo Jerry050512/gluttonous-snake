@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "structs.h": "c",
+        "snake.h": "c",
+        "utils.h": "c"
+    }
+}
