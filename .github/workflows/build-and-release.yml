@@ -6,6 +6,9 @@ on:
       - 'v*'  # 仅在推送标签时触发
   workflow_dispatch:  # 允许手动触发
 
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
