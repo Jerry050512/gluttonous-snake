@@ -17,10 +17,10 @@ include_directories(src/include)
 file(GLOB_RECURSE SOURCES "src/*.c")
 
 # 添加可执行文件
-add_executable(game ${SOURCES})
+add_executable(glu-snake ${SOURCES})
 
 # 查找测试文件
 file(GLOB_RECURSE TEST_SOURCES "tests/*.c")
 
 # 添加测试可执行文件
-add_executable(test ${TEST_SOURCES} ${SOURCES})
+add_executable(test ${TEST_SOURCES})
