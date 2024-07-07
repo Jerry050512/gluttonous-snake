@@ -23,7 +23,7 @@ int main() {
         moveSnake(&snake);
 
         if (checkCollision(&snake)) {
-            printf("\nGame Over! Your score is: %d\n", score);
+            printf("Game Over! Your score is: %d\n", score);
             break;
         }
 
