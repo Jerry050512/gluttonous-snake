@@ -3,6 +3,8 @@
         "structs.h": "c",
         "snake.h": "c",
         "utils.h": "c",
-        "stdio.h": "c"
-    }
+        "stdio.h": "c",
+        "macros.h": "c"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }

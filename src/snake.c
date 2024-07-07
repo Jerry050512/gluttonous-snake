@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #ifdef _WIN32
 #include <conio.h>
 #include <windows.h>
@@ -9,7 +10,32 @@
 #include "macros.h"
 #include "utils.h"
 
+void drawBoarder() {
+    // clearScreen();
+    gotoxy(0, 0);
+    printf(LEFT_CORNER);
+    for (int x = 0; x < WIDTH; x++) {
+        printf(TOP_BOTTOM_WALL);
+    }
+    printf(RIGHT_CORNER);
+
+    for (int y = 0; y < HEIGHT; y++) {
+        gotoxy(0, y + 1);
+        printf(LEFT_WALL);
+        gotoxy(WIDTH * 2 + 2, y + 1);
+        printf(RIGHT_WALL);
+    }
+
+    gotoxy(0, HEIGHT + 1);
+    printf(LEFT_CORNER);
+    for (int x = 0; x < WIDTH; x++) {
+        printf(TOP_BOTTOM_WALL);
+    }
+    printf(RIGHT_CORNER);
+}
+
 void initGame(Snake *snake, Point *food) {
+    // drawBoarder();
     snake->length = 1;
     snake->body[0].x = WIDTH / 2;
     snake->body[0].y = HEIGHT / 2;
@@ -18,12 +44,12 @@ void initGame(Snake *snake, Point *food) {
     food->x = rand() % WIDTH;
     food->y = rand() % HEIGHT;
 }
-
 void drawBoard(Snake *snake, Point *food) {
-    clearScreen();
-    gotoxy(0, 0);
+    // clearScreen();
+    drawBoarder();
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
+            gotoxy(x * 2 + 2, y + 1);
             int isBody = 0;
             for (int k = 0; k < snake->length; k++) {
                 if (snake->body[k].x == x && snake->body[k].y == y) {
@@ -32,11 +58,11 @@ void drawBoard(Snake *snake, Point *food) {
                 }
             }
             if (isBody) {
-                printf("O");
+                printf(SNAKE_BODY);
             } else if (food->x == x && food->y == y) {
-                printf("*");
+                printf(FOOD);
             } else {
-                printf("-");
+                printf(EMPTY);
             }
         }
         printf("\n");
@@ -79,11 +105,7 @@ int checkCollision(Snake *snake) {
 }
 
 void updateDirection(Snake *snake) {
-    #if defined(_WIN32)
-    int ch = _getch();
-    #else
-    int ch = getchar();
-    #endif
+    int ch = getch();
     switch (ch) {
         case 'w':
             if (snake->direction != DOWN) snake->direction = UP;

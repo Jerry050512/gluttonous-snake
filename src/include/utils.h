@@ -3,3 +3,4 @@ void hideCursor();
 void showCursor();
 void clearScreen();
 int kbhit();
+int getch();
