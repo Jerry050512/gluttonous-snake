@@ -4,7 +4,7 @@ typedef struct {
 } Point;
 
 typedef struct {
-    Point body[100];
+    Point body[400];
     int length;
     int direction;
 } Snake;

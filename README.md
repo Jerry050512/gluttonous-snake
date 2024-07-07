@@ -45,7 +45,7 @@ int main() {
     wprintf(L"\n");
 }
 ```
-注意这里用的是`gotoxy(i*x, j);`
+注意这里用的是`gotoxy(i*2, j);`
 
 编译命令
 ```bash

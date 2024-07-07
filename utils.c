@@ -7,23 +7,30 @@
 #include <termios.h>
 #include <fcntl.h>
 #endif
-#include <locale.h>
-#include <wchar.h>
+
+int getch() {
+    #if defined(_WIN32)
+    int ch = _getch();
+    #else
+    int ch = getchar();
+    #endif
+    return ch;
+}
 
 void gotoxy(int x, int y) {
-    wprintf(L"\033[%d;%dH", y + 1, x + 1);
+    printf("\033[%d;%dH", y + 1, x + 1);
 }
 
 void hideCursor() {
-    wprintf(L"\033[?25l");
+    printf("\033[?25l");
 }
 
 void showCursor() {
-    wprintf(L"\033[?25h");
+    printf("\033[?25h");
 }
 
 void clearScreen() {
-    wprintf(L"\033[2J");
+    printf("\033[2J");
 }
 
 int kbhit(void)
