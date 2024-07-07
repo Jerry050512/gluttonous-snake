@@ -1,11 +1,26 @@
-cmake_minimum_required(VERSION 3.17)
-project(game)
+cmake_minimum_required(VERSION 3.10)
 
-set(SOURCE_FILES)
-set(SOURCE_FILES ${SOURCE_FILES} game.c)
-set(SOURCE_FILES ${SOURCE_FILES} snake.c)
-set(SOURCE_FILES ${SOURCE_FILES} utils.c)
+# 项目信息
+project(GluttounousSnake)
 
-add_executable(game ${SOURCE_FILES})
+# 设置编译器
+set(CMAKE_C_COMPILER gcc)
+set(CMAKE_CXX_COMPILER g++)
 
-install(TARGETS game DESTINATION bin)
+# 设置 C 标准
+set(CMAKE_C_STANDARD 99)
+
+# 包含头文件目录
+include_directories(src/include)
+
+# 查找所有源文件
+file(GLOB_RECURSE SOURCES "src/*.c")
+
+# 添加可执行文件
+add_executable(game ${SOURCES})
+
+# 查找测试文件
+file(GLOB_RECURSE TEST_SOURCES "tests/*.c")
+
+# 添加测试可执行文件
+add_executable(test ${TEST_SOURCES} ${SOURCES})
