@@ -3,6 +3,7 @@
         "structs.h": "c",
         "snake.h": "c",
         "utils.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "conio.h": "c"
     }
 }
