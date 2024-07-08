@@ -1,7 +1,13 @@
-#include "game.h"
+#include "menu.h"
+#include "utils.h"
+#include "structs.h"
+
+Config config;
 
 int main()
 {
-    playGame();
+    hideCursor();
+    while(display_menu()) ;
+    showCursor();
     return 0;
 }

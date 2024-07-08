@@ -63,3 +63,11 @@ int kbhit(void)
     return 0;
 #endif
 }
+
+void press_any_key_to_continue()
+{
+    while(kbhit()) getch();
+    printf("Press any key to continue...");
+    while (!kbhit());
+    getch();
+}
