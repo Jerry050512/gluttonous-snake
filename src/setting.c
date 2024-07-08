@@ -21,7 +21,7 @@ void read_config(Config *config){
 void create_default_config(Config *config){
     config->map_height = MAX_MAP_WIDTH_HEIGHT;
     config->map_width = MAX_MAP_WIDTH_HEIGHT;
-    config->barrier_delay = 3;
+    config->barrier_delay = 0;
     config->sleep_time = 100000;
     write_config(config);
 }
