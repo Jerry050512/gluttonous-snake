@@ -7,12 +7,14 @@
 #include "macros.h"
 #include "utils.h"
 #include "snake.h"
+#include "stats.h"
 
 void playGame() {
     Snake snake;
     Point food;
-    int score = 0;
     
+    reset_score_count();
+    reset_step_count();
     srand(time(NULL));
     hideCursor();
     initGame(&snake, &food);
@@ -22,14 +24,15 @@ void playGame() {
             updateDirection(&snake);
         }
         moveSnake(&snake);
-
+        increment_step_count();
         if (checkCollision(&snake)) {
-            printf("Game Over! Your score is: %d\n", score);
+            printf("Game Over! Your score is: %d\n", get_score_count());
+            printf("AND Your STEP is: %d\n", get_step_count());
             break;
         }
 
         if (eatFood(&snake, &food)) {
-            score++;
+            increment_score_count();
         }
 
         drawBoard(&snake, &food);

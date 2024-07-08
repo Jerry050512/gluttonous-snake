@@ -122,12 +122,25 @@ void updateDirection(Snake *snake) {
     }
 }
 
+int errorFood(Snake *snake,Point *food) {
+    for (int i = 1; i < snake->length; i++) {
+        if (food->x == snake->body[i].x && food->y == snake->body[i].y) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int eatFood(Snake *snake, Point *food) {
     if (snake->body[0].x == food->x && snake->body[0].y == food->y) {
         snake->length++;
         food->x = rand() % WIDTH;
         food->y = rand() % HEIGHT;
         // BUG: food refresh in the snake body
+        while(errorFood(snake,food)){
+            food->x = rand() % WIDTH;
+            food->y = rand() % HEIGHT;
+        }
         return 1;
     }
     return 0;
