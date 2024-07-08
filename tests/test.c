@@ -23,5 +23,15 @@
 #include <stdio.h>
 
 int main() {
-    printf("■■");
+    FILE* a = fopen("test.txt", "w");
+    if(a != NULL) {
+        fprintf(a, "H123\nd145\n");
+    }
+    fclose(a);
+    FILE* b = fopen("test.txt", "r");
+    int x, y;
+    fscanf(b, "H%d\n", &x);
+    fscanf(b, "d%d\n", &y);
+    printf("%d %d", x, y);
+
 }

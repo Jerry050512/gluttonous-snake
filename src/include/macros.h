@@ -1,5 +1,9 @@
+#ifndef MACROS_H
+#define MACROS_H
+
 #define WIDTH 20
 #define HEIGHT 20
+#define MAX_MAP_WIDTH_HEIGHT 20
 #define UP 0
 #define DOWN 1
 #define LEFT 2
@@ -13,3 +17,6 @@
 #define LEFT_CORNER "+-"
 #define RIGHT_CORNER "-+"
 #define BARRIER "■ "
+#define BARRIER_TO_BREAK "x "
+
+#endif

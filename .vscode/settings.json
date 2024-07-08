@@ -4,7 +4,18 @@
         "snake.h": "c",
         "utils.h": "c",
         "stdio.h": "c",
-        "macros.h": "c"
+<<<<<<< HEAD
+        "conio.h": "c"
+    }
+=======
+        "macros.h": "c",
+        "stats.h": "c",
+<<<<<<< HEAD
+        "game.h": "c"
+=======
+        "menu.h": "c"
+>>>>>>> ab3728972de01ae7ae3532a108696f76099852c0
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+>>>>>>> b574cbc8600bcc6c89b1a6a616e024d48e144dc4
 }
