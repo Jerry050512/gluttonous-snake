@@ -17,5 +17,6 @@
 #define LEFT_CORNER "+-"
 #define RIGHT_CORNER "-+"
 #define BARRIER "■ "
+#define BARRIER_TO_BREAK "x "
 
 #endif
