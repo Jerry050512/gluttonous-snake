@@ -11,47 +11,51 @@
 #include "utils.h"
 
 extern Config config;
-Map map;
 
-void drawBoarder() {
+void drawBoarder(Map *map)
+{
     // clearScreen();
     gotoxy(0, 0);
     printf(LEFT_CORNER);
-    for (int x = 0; x < config.map_width; x++) {
+    for (int x = 0; x < map->width; x++) {
         printf(TOP_BOTTOM_WALL);
     }
     printf(RIGHT_CORNER);
 
-    for (int y = 0; y <config.map_height; y++) {
+    for (int y = 0; y <map->height; y++) {
         gotoxy(0, y + 1);
         printf(LEFT_WALL);
-        gotoxy(config.map_width * 2 + 2, y + 1);
+        gotoxy(map->width * 2 + 2, y + 1);
         printf(RIGHT_WALL);
     }
 
-    gotoxy(0, config.map_height + 1);
+    gotoxy(0, map->height + 1);
     printf(LEFT_CORNER);
-    for (int x = 0; x < config.map_width; x++) {
+    for (int x = 0; x < map->width; x++) {
         printf(TOP_BOTTOM_WALL);
     }
     printf(RIGHT_CORNER);
 }
 
-void initGame(Snake *snake, Point *food) {
+void initGame(Snake *snake, Point *food, Map *map)
+{
     // drawBoarder();
+    map->height = config.map_height;
+    map->width = config.map_width;
     snake->length = 1;
-    snake->body[0].x = config.map_width / 2;
-    snake->body[0].y = config.map_height / 2;
+    snake->body[0].x = map->width / 2;
+    snake->body[0].y = map->height / 2;
     snake->direction = RIGHT;
 
-    food->x = rand() % config.map_width;
-    food->y = rand() % config.map_height;
+    food->x = rand() % map->width;
+    food->y = rand() % map->height;
 }
-void drawBoard(Snake *snake, Point *food) {
+void drawBoard(Snake *snake, Point *food, Map *map)
+{
     // clearScreen();
-    drawBoarder();
-    for (int y = 0; y < config.map_height; y++) {
-        for (int x = 0; x < config.map_width; x++) {
+    drawBoarder(map);
+    for (int y = 0; y < map->height; y++) {
+        for (int x = 0; x < map->width; x++) {
             gotoxy(x * 2 + 2, y + 1);
             int isBody = 0;
             for (int k = 0; k < snake->length; k++) {
@@ -72,7 +76,7 @@ void drawBoard(Snake *snake, Point *food) {
     }
 }
 
-void moveSnake(Snake *snake) {
+void moveSnake(Snake *snake, Map *map) {
     for (int i = snake->length - 1; i > 0; i--) {
         snake->body[i] = snake->body[i - 1];
     }
@@ -92,13 +96,13 @@ void moveSnake(Snake *snake) {
             break;
     }
 
-    if (snake->body[0].x >= config.map_width) snake->body[0].x = 0;
-    if (snake->body[0].x < 0) snake->body[0].x = config.map_width - 1;
-    if (snake->body[0].y >= config.map_height) snake->body[0].y = 0;
-    if (snake->body[0].y < 0) snake->body[0].y = config.map_height - 1;
+    if (snake->body[0].x >= map->width) snake->body[0].x = 0;
+    if (snake->body[0].x < 0) snake->body[0].x = map->width - 1;
+    if (snake->body[0].y >= map->height) snake->body[0].y = 0;
+    if (snake->body[0].y < 0) snake->body[0].y = map->height - 1;
 }
 
-int checkCollision(Snake *snake) {
+int checkCollision(Snake *snake, Map *map) {
     for (int i = 1; i < snake->length; i++) {
         if (snake->body[0].x == snake->body[i].x && snake->body[0].y == snake->body[i].y) {
             return 1;
@@ -134,15 +138,16 @@ int errorFood(Snake *snake,Point *food) {
     return 0;
 }
 
-int eatFood(Snake *snake, Point *food) {
+int eatFood(Snake *snake, Point *food, Map *map)
+{
     if (snake->body[0].x == food->x && snake->body[0].y == food->y) {
         snake->length++;
-        food->x = rand() % config.map_width;
-        food->y = rand() % config.map_height;
+        food->x = rand() % map->width;
+        food->y = rand() % map->height;
         // BUG: food refresh in the snake body
         while(errorFood(snake,food)){
-            food->x = rand() % config.map_width;
-            food->y = rand() % config.map_height;
+            food->x = rand() % map->width;
+            food->y = rand() % map->height;
         }
         return 1;
     }

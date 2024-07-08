@@ -9,7 +9,7 @@ int main()
 {
     hideCursor();
     read_config(&config);
-    while(display_menu()) ;
+    while(display_menu());
     showCursor();
     return 0;
 }

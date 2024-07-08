@@ -61,7 +61,7 @@ void display_help_menu() {
     press_any_key_to_continue();
 }
 
-void display_settings_menu() {
+int display_settings_menu() {
     clearScreen();
     char prompts[][50] = {"Change Map Size", "Change Snake Speed", "Change Barrier Delay", "Back"};
     int option = show_option(prompts, 4);
@@ -69,38 +69,59 @@ void display_settings_menu() {
     {
     case 0:
         int width, height;
-        printf("Input Map Size (default 20x20): ");
+        printf("Input Map Size (default max 20x20): ");
         scanf("%dx%d", &width, &height);
         if(width > MAX_MAP_WIDTH_HEIGHT || height > MAX_MAP_WIDTH_HEIGHT ||
            width <= 0 || height <= 0) {
             printf("Invalid Map Size\n");
             break;
         }
+        printf("Set Map Size to %dx%d\n", width, height);
         adjust_map_size(width, height, &config);
         break;
     case 1:
         int speed;
-        printf("Input Snake Speed (default 2): ");
+        printf("Input Snake Speed (default 2 max 3): ");
         scanf("%d", &speed);
         if(speed > 3 || speed < 1) {
             printf("Invalid Snake Speed\n");
+            break;
+        }
+        printf("Set Snake Speed to %d\n", speed);
+        switch (speed) 
+        {
+        case 1:
+            speed = 300000;
+            break;
+        case 2:
+            speed = 100000;
+            break;
+        case 3:
+            speed = 50000;
             break;
         }
         set_snake_speed(speed, &config);
         break;
     case 2:
     	int barrier_delay;
-        printf("Input Barrier Delay (default 3): ");
+        printf("Input Barrier Delay (default 3 max 7): ");
         scanf("%d", &barrier_delay);
         if(barrier_delay > 7 || barrier_delay < 1) {
             printf("Invalid Barrier Delay\n");
             break;
         }
+        printf("Set Barrier Delay to %d\n", barrier_delay);
         set_barrier_delay(barrier_delay, &config);
+        break;
+    case 3:
+        return 0;
     default:
         break;
     }
+    write_config(&config);
+    printf("Settings saved...\n");
     press_any_key_to_continue();
+    return 1;
 }
 
 int display_menu() {
@@ -117,7 +138,7 @@ int display_menu() {
         display_help_menu();
         break;
     case 2:
-        display_settings_menu();
+        while(display_settings_menu()) ;
         break;
     case 3:
         printf("Exiting...\n");

@@ -28,7 +28,7 @@ void create_default_config(Config *config){
 
 void write_config(Config *config){
     FILE *fp;
-    fp = fopen("glu-config.cfg", "w");
+    fp = fopen("glu-snake.cfg", "w");
 
     if (fp == NULL) {
         printf("File could not be opened\n");
