@@ -3,15 +3,21 @@
 #include <unistd.h>
 #include <time.h>
 
+#include "game.h"
 #include "macros.h"
 #include "utils.h"
 #include "snake.h"
+#include "stats.h"
+#include "structs.h"
 
-int main() {
+extern Config config;
+
+void playGame() {
     Snake snake;
     Point food;
-    int score = 0;
     
+    reset_score_count();
+    reset_step_count();
     srand(time(NULL));
     hideCursor();
     initGame(&snake, &food);
@@ -21,20 +27,22 @@ int main() {
             updateDirection(&snake);
         }
         moveSnake(&snake);
-
+        increment_step_count();
         if (checkCollision(&snake)) {
-            printf("Game Over! Your score is: %d\n", score);
+            gotoxy(0, config.map_height+2);
+            printf("Game Over! Your score is: %d\n", get_score_count());
+            printf("AND Your STEP is: %d\n", get_step_count());
+            press_any_key_to_continue();
             break;
         }
 
         if (eatFood(&snake, &food)) {
-            score++;
+            increment_score_count();
         }
 
         drawBoard(&snake, &food);
-        usleep(100000); // 100 milliseconds
+        usleep(config.sleep_time); // 100 milliseconds
     }
 
     showCursor();
-    return 0;
 }

@@ -2,90 +2,93 @@ name: Build and Release
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'  # 仅在推送标签时触发
+  workflow_dispatch:  # 允许手动触发
+
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up build tools
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get install -y build-essential
+    - name: Set up CMake
+      uses: lukka/get-cmake@latest
 
-      - name: Compile for Linux
-        if: matrix.os == 'ubuntu-latest'
-        run: gcc *.c -o game
+    - name: Install MinGW on Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install mingw
+        echo "::add-path::C:\tools\mingw64\bin"
 
-      - name: Set up build tools
-        if: matrix.os == 'windows-latest'
-        run: choco install mingw
+    - name: Configure CMake on Windows
+      if: matrix.os == 'windows-latest'
+      run: cmake -S . -B build -G "MinGW Makefiles"
+    
+    - name: Configure CMake on Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: cmake -S . -B build
 
-      - name: Compile for Windows
-        if: matrix.os == 'windows-latest'
-        run: |
-          mingw32-gcc *.c -o game.exe
+    - name: Build
+      run: cmake --build build --config Release
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.os }}-build
-          path: ${{ matrix.os == 'ubuntu-latest' && 'game' || 'game.exe' }}
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: glu-snake-${{ matrix.os }}
+        path: build
 
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Download build artifacts (Linux)
+      uses: actions/download-artifact@v2
+      with:
+        name: glu-snake-ubuntu-latest
+        path: ./artifacts/linux
 
-      - name: Download Linux build
-        uses: actions/download-artifact@v2
-        with:
-          name: ubuntu-latest-build
-          path: .
+    - name: Download build artifacts (Windows)
+      uses: actions/download-artifact@v2
+      with:
+        name: glu-snake-windows-latest
+        path: ./artifacts/windows
 
-      - name: Download Windows build
-        uses: actions/download-artifact@v2
-        with:
-          name: windows-latest-build
-          path: .
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.sha }}
-          release_name: Release ${{ github.sha }}
-          draft: false
-          prerelease: false
+    - name: Upload Release Asset (Linux)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./artifacts/linux
+        asset_name: glu-snake-linux
+        asset_content_type: application/octet-stream
 
-      - name: Upload Linux binary
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./game
-          asset_name: game
-          asset_content_type: application/octet-stream
-
-      - name: Upload Windows binary
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./game.exe
-          asset_name: game.exe
-          asset_content_type: application/octet-stream
+    - name: Upload Release Asset (Windows)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./artifacts/windows
+        asset_name: glu-snake-windows
+        asset_content_type: application/octet-stream
