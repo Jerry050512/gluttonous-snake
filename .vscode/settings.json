@@ -6,7 +6,11 @@
         "stdio.h": "c",
         "macros.h": "c",
         "stats.h": "c",
+<<<<<<< HEAD
         "game.h": "c"
+=======
+        "menu.h": "c"
+>>>>>>> ab3728972de01ae7ae3532a108696f76099852c0
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }

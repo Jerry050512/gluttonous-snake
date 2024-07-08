@@ -7,5 +7,6 @@ void showCursor();
 void clearScreen();
 int kbhit();
 int getch();
+void press_any_key_to_continue();
 
 #endif
