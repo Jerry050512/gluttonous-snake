@@ -3,11 +3,12 @@
 #include <unistd.h>
 #include <time.h>
 
+#include "game.h"
 #include "macros.h"
 #include "utils.h"
 #include "snake.h"
 
-int main() {
+void playGame() {
     Snake snake;
     Point food;
     int score = 0;
@@ -36,5 +37,4 @@ int main() {
     }
 
     showCursor();
-    return 0;
 }
