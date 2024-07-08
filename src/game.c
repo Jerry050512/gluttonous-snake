@@ -8,6 +8,9 @@
 #include "utils.h"
 #include "snake.h"
 #include "stats.h"
+#include "structs.h"
+
+extern Config config;
 
 void playGame() {
     Snake snake;
@@ -36,7 +39,7 @@ void playGame() {
         }
 
         drawBoard(&snake, &food);
-        usleep(100000); // 100 milliseconds
+        usleep(config.sleep_time); // 100 milliseconds
     }
 
     showCursor();

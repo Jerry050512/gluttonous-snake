@@ -5,7 +5,8 @@
         "utils.h": "c",
         "stdio.h": "c",
         "macros.h": "c",
-        "stats.h": "c"
+        "stats.h": "c",
+        "game.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }
