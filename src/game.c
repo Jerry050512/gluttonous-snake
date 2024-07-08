@@ -29,6 +29,7 @@ void playGame() {
         moveSnake(&snake);
         increment_step_count();
         if (checkCollision(&snake)) {
+            gotoxy(0, config.map_height+2);
             printf("Game Over! Your score is: %d\n", get_score_count());
             printf("AND Your STEP is: %d\n", get_step_count());
             press_any_key_to_continue();
