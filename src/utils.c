@@ -71,3 +71,13 @@ void press_any_key_to_continue()
     while (!kbhit());
     getch();
 }
+
+void press_space_to_continue()
+{
+    while(kbhit()) getch();
+    printf("Press space to continue...");
+    do {
+        while (!kbhit());
+    } while(getch() != ' ');
+    
+}

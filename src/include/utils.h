@@ -8,5 +8,6 @@ void clearScreen();
 int kbhit();
 int getch();
 void press_any_key_to_continue();
+void press_space_to_continue();
 
 #endif
