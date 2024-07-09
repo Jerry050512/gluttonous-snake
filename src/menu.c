@@ -104,9 +104,9 @@ int display_settings_menu() {
         break;
     case 2:
     	int barrier_delay;
-        printf("Input Barrier Delay (default 3 max 7): ");
+        printf("Input Barrier Delay (default 0 max 7): ");
         scanf("%d", &barrier_delay);
-        if(barrier_delay > 7 || barrier_delay < 1) {
+        if(barrier_delay > 7 || barrier_delay < 0) {
             printf("Invalid Barrier Delay\n");
             break;
         }
