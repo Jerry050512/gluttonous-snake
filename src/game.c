@@ -26,6 +26,10 @@ void playGame() {
         if (kbhit()) {
             updateDirection(&snake);
         }
+
+        if (eatFood(&snake, &food, &map)) {
+            increment_score_count();
+        }
         moveSnake(&snake, &map);
         increment_step_count();
         if (checkCollision(&snake, &map)) {
@@ -34,10 +38,6 @@ void playGame() {
             printf("AND Your STEP is: %d\n", get_step_count());
             press_space_to_continue();
             break;
-        }
-
-        if (eatFood(&snake, &food, &map)) {
-            increment_score_count();
         }
 
         drawBoard(&snake, &food, &map);
