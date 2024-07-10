@@ -23,6 +23,7 @@ typedef struct {
 typedef struct {
     int map_width;
     int map_height;
+    int init_length;
     int barrier_delay;
     int sleep_time;
 } Config;

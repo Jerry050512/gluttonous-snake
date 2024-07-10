@@ -51,6 +51,8 @@ void playGame() {
 
         if (eatFood(&snake, &food, &map)) {
             increment_score_count();
+        } else if (snake.length < config.init_length) {
+            snake.length++;
         }
         moveSnake(&snake, &map);
         increment_step_count();

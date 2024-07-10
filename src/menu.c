@@ -65,8 +65,8 @@ void display_help_menu() {
 
 int display_settings_menu() {
     clearScreen();
-    char prompts[][50] = {"Change Map Size", "Change Snake Speed", "Change Barrier Delay", "Back"};
-    int option = show_option(prompts, 4);
+    char prompts[][50] = {"Change Map Size", "Change Snake Speed", "Change init length", "Change Barrier Delay", "Back"};
+    int option = show_option(prompts, 5);
     switch (option)
     {
     case 0:
@@ -105,6 +105,17 @@ int display_settings_menu() {
         set_snake_speed(speed, &config);
         break;
     case 2:
+    	int init_length;
+        printf("Input Initial Length (default 3 max 20): ");
+        scanf("%d", &init_length);
+        if(init_length > 20 || init_length < 1) {
+            printf("Invalid Initial Length\n");
+            break;
+        }
+        printf("Set Initial Length to %d\n", init_length);
+        set_init_length(init_length, &config);
+        break;
+    case 3:
     	int barrier_delay;
         printf("Input Barrier Delay (default 0 max 7): ");
         scanf("%d", &barrier_delay);
@@ -115,7 +126,7 @@ int display_settings_menu() {
         printf("Set Barrier Delay to %d\n", barrier_delay);
         set_barrier_delay(barrier_delay, &config);
         break;
-    case 3:
+    case 4:
         return 0;
     default:
         break;
