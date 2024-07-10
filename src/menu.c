@@ -57,6 +57,7 @@ void display_help_menu() {
     clearScreen();
     gotoxy(0, 0);   
     printf("Use 'w', 'a', 's', 'd' to move\n");
+    printf("Press 'q' to pause the game and press again to quit\n");
     printf("Snake shed their skin(that is,obstacles)after each meal.Do not touch it!\n");
     printf("Customize the game settings,eat as much as possible and go further!\n");
     printf("");
