@@ -8,20 +8,32 @@
 
 extern Config config;
 
-int show_option(char prompts[][50], int n) {
-    int option=0;
-    while(1) {
-        for(int i=0; i<n; i++) {
-            gotoxy(0, i+1);
+int show_option(char prompts[][50], int n)
+{
+    // Show multiple prompts and use 'w' 's' and space to select
+    // Return the option user chose
+    int option = 0;
+    while (1)
+    {
+        // Update chosen option state
+        for (int i = 0; i < n; i++)
+        {
+            gotoxy(0, i + 1);
             printf("  ");
-            if(option == i) {
+            if (option == i)
+            {
                 printf("> ");
-            } else {
+            }
+            else
+            {
                 printf("  ");
             }
             printf("%s\n", prompts[i]);
         }
-        if(kbhit()) {
+
+        // Handle key input
+        if (kbhit())
+        {
             int ch = getch();
             gotoxy(0, 4);
             printf("  ");
@@ -45,7 +57,9 @@ int show_option(char prompts[][50], int n) {
     }
 }
 
-int choose_option() {
+int choose_option()
+{
+    // main menu
     clearScreen();
     char prompts[][50] = {"Start Game", "Help", "Settings", "Exit"};
     gotoxy(0, 0);
@@ -53,9 +67,10 @@ int choose_option() {
     return show_option(prompts, 4);
 }
 
-void display_help_menu() {
+void display_help_menu()
+{
     clearScreen();
-    gotoxy(0, 0);   
+    gotoxy(0, 0);
     printf("Use 'w', 'a', 's', 'd' to move\n");
     printf("Press 'q' to pause the game and press again to quit\n");
     printf("Snake shed their skin(that is,obstacles)after each meal.Do not touch it!\n");
@@ -64,7 +79,8 @@ void display_help_menu() {
     press_any_key_to_continue();
 }
 
-int display_settings_menu() {
+int display_settings_menu()
+{
     clearScreen();
     char prompts[][50] = {"Change Map Size", "Change Snake Speed", "Change init length", "Change Barrier Delay", "Back"};
     int option = show_option(prompts, 5);
@@ -74,8 +90,9 @@ int display_settings_menu() {
         int width, height;
         printf("Input Map Size (default max 20x20): ");
         scanf("%dx%d", &width, &height);
-        if(width > MAX_MAP_WIDTH_HEIGHT || height > MAX_MAP_WIDTH_HEIGHT ||
-           width <= 4 || height <= 4) {
+        if (width > MAX_MAP_WIDTH_HEIGHT || height > MAX_MAP_WIDTH_HEIGHT ||
+            width <= 4 || height <= 4)
+        {
             printf("Invalid Map Size\n");
             break;
         }
@@ -86,12 +103,13 @@ int display_settings_menu() {
         int speed;
         printf("Input Snake Speed (default 2 max 3): ");
         scanf("%d", &speed);
-        if(speed > 3 || speed < 1) {
+        if (speed > 3 || speed < 1)
+        {
             printf("Invalid Snake Speed\n");
             break;
         }
         printf("Set Snake Speed to %d\n", speed);
-        switch (speed) 
+        switch (speed)
         {
         case 1:
             speed = 300000;
@@ -106,10 +124,11 @@ int display_settings_menu() {
         set_snake_speed(speed, &config);
         break;
     case 2:
-    	int init_length;
+        int init_length;
         printf("Input Initial Length (default 3 max 20): ");
         scanf("%d", &init_length);
-        if(init_length > 20 || init_length < 1) {
+        if (init_length > 20 || init_length < 1)
+        {
             printf("Invalid Initial Length\n");
             break;
         }
@@ -117,10 +136,11 @@ int display_settings_menu() {
         set_init_length(init_length, &config);
         break;
     case 3:
-    	int barrier_delay;
+        int barrier_delay;
         printf("Input Barrier Delay (default 0 max 7): ");
         scanf("%d", &barrier_delay);
-        if(barrier_delay > 7 || barrier_delay < 0) {
+        if (barrier_delay > 7 || barrier_delay < 0)
+        {
             printf("Invalid Barrier Delay\n");
             break;
         }
@@ -138,7 +158,8 @@ int display_settings_menu() {
     return 1;
 }
 
-int display_menu() {
+int display_menu()
+{
     int option = choose_option();
     printf("option=%d\n", option);
     printf("Loading...\n");
@@ -152,7 +173,8 @@ int display_menu() {
         display_help_menu();
         break;
     case 2:
-        while(display_settings_menu()) ;
+        while (display_settings_menu())
+            ;
         break;
     case 3:
         printf("Exiting...\n");

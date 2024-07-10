@@ -17,12 +17,14 @@ void drawBoarder(Map *map)
     // clearScreen();
     gotoxy(0, 0);
     printf(LEFT_CORNER);
-    for (int x = 0; x < map->width; x++) {
+    for (int x = 0; x < map->width; x++)
+    {
         printf(TOP_BOTTOM_WALL);
     }
     printf(RIGHT_CORNER);
 
-    for (int y = 0; y <map->height; y++) {
+    for (int y = 0; y < map->height; y++)
+    {
         gotoxy(0, y + 1);
         printf(LEFT_WALL);
         gotoxy(map->width * 2 + 2, y + 1);
@@ -31,7 +33,8 @@ void drawBoarder(Map *map)
 
     gotoxy(0, map->height + 1);
     printf(LEFT_CORNER);
-    for (int x = 0; x < map->width; x++) {
+    for (int x = 0; x < map->width; x++)
+    {
         printf(TOP_BOTTOM_WALL);
     }
     printf(RIGHT_CORNER);
@@ -61,26 +64,39 @@ void drawBoard(Snake *snake, Point *food, Map *map)
 {
     // clearScreen();
     drawBoarder(map);
-    for (int y = 0; y < map->height; y++) {
-        for (int x = 0; x < map->width; x++) {
+    for (int y = 0; y < map->height; y++)
+    {
+        for (int x = 0; x < map->width; x++)
+        {
             gotoxy(x * 2 + 2, y + 1);
             int isBody = 0;
-            for (int k = 0; k < snake->length; k++) {
-                if (snake->body[k].x == x && snake->body[k].y == y) {
+            for (int k = 0; k < snake->length; k++)
+            {
+                if (snake->body[k].x == x && snake->body[k].y == y)
+                {
                     isBody = 1;
                     break;
                 }
             }
 
-            if (map->barrier[x][y] == 1) {
+            if (map->barrier[x][y] == 1)
+            {
                 printf(BARRIER_TO_BREAK);
-            } else if(map->barrier[x][y] > 0) {
+            }
+            else if (map->barrier[x][y] > 0)
+            {
                 printf(BARRIER);
-            } else if (isBody) {
+            }
+            else if (isBody)
+            {
                 printf(SNAKE_BODY);
-            } else if (food->x == x && food->y == y) {
+            }
+            else if (food->x == x && food->y == y)
+            {
                 printf(FOOD);
-            } else {
+            }
+            else
+            {
                 printf(EMPTY);
             }
         }
@@ -88,70 +104,96 @@ void drawBoard(Snake *snake, Point *food, Map *map)
     }
 }
 
-void moveSnake(Snake *snake, Map *map) {
-    for (int i = snake->length - 1; i > 0; i--) {
+void moveSnake(Snake *snake, Map *map)
+{
+    // Move body
+    for (int i = snake->length - 1; i > 0; i--)
+    {
         snake->body[i] = snake->body[i - 1];
     }
 
-    switch (snake->direction) {
-        case UP:
-            snake->body[0].y--;
-            break;
-        case DOWN:
-            snake->body[0].y++;
-            break;
-        case LEFT:
-            snake->body[0].x--;
-            break;
-        case RIGHT:
-            snake->body[0].x++;
-            break;
+    // Move head
+    switch (snake->direction)
+    {
+    case UP:
+        snake->body[0].y--;
+        break;
+    case DOWN:
+        snake->body[0].y++;
+        break;
+    case LEFT:
+        snake->body[0].x--;
+        break;
+    case RIGHT:
+        snake->body[0].x++;
+        break;
     }
 
-    if (snake->body[0].x >= map->width) snake->body[0].x = 0;
-    if (snake->body[0].x < 0) snake->body[0].x = map->width - 1;
-    if (snake->body[0].y >= map->height) snake->body[0].y = 0;
-    if (snake->body[0].y < 0) snake->body[0].y = map->height - 1;
+    // Check boarder
+    if (snake->body[0].x >= map->width)
+        snake->body[0].x = 0;
+    if (snake->body[0].x < 0)
+        snake->body[0].x = map->width - 1;
+    if (snake->body[0].y >= map->height)
+        snake->body[0].y = 0;
+    if (snake->body[0].y < 0)
+        snake->body[0].y = map->height - 1;
 }
 
-int checkCollision(Snake *snake, Map *map) {
+int checkCollision(Snake *snake, Map *map)
+{
+    // check Barrier
     if (map->barrier[snake->body[0].x][snake->body[0].y] > 0)
         return 1;
-    for (int i = 1; i < snake->length; i++) {
-        if (snake->body[0].x == snake->body[i].x && snake->body[0].y == snake->body[i].y) {
+    // Check Collision
+    for (int i = 1; i < snake->length; i++)
+    {
+        if (snake->body[0].x == snake->body[i].x && snake->body[0].y == snake->body[i].y)
+        {
             return 1;
         }
     }
     return 0;
 }
 
-int updateDirection(Snake *snake) {
+int updateDirection(Snake *snake)
+{
     int ch = getch();
-    switch (ch) {
-        case 'w':
-            if (snake->direction != DOWN) snake->direction = UP;
-            break;
-        case 's':
-            if (snake->direction != UP) snake->direction = DOWN;
-            break;
-        case 'a':
-            if (snake->direction != RIGHT) snake->direction = LEFT;
-            break;
-        case 'd':
-            if (snake->direction != LEFT) snake->direction = RIGHT;
-            break;
-        case 'q':
-            return 1;
-        default:
-            break;
+    switch (ch)
+    {
+    case 'w':
+        if (snake->direction != DOWN)
+            snake->direction = UP;
+        break;
+    case 's':
+        if (snake->direction != UP)
+            snake->direction = DOWN;
+        break;
+    case 'a':
+        if (snake->direction != RIGHT)
+            snake->direction = LEFT;
+        break;
+    case 'd':
+        if (snake->direction != LEFT)
+            snake->direction = RIGHT;
+        break;
+    case 'q':
+        return 1;
+    default:
+        break;
     }
     return 0;
 }
 
-int errorFood(Snake *snake,Point *food, Map *map) {
-    if (map->barrier[food->x][food->y] > 0) return 1;
-    for (int i = 1; i < snake->length; i++) {
-        if (food->x == snake->body[i].x && food->y == snake->body[i].y) {
+int errorFood(Snake *snake, Point *food, Map *map)
+{
+    // Food generate in body or barrier
+    if (map->barrier[food->x][food->y] > 0)
+        return 1;
+    for (int i = 1; i < snake->length; i++)
+    {
+        if (food->x == snake->body[i].x && food->y == snake->body[i].y)
+        {
             return 1;
         }
     }
@@ -160,13 +202,18 @@ int errorFood(Snake *snake,Point *food, Map *map) {
 
 int eatFood(Snake *snake, Point *food, Map *map)
 {
-    if (snake->body[0].x == food->x && snake->body[0].y == food->y) {
-        for(int x=0; x<map->width; x++) {
-            for(int y=0; y<map->width; y++) {
-                if(map->barrier[x][y] > 0)
+    if (snake->body[0].x == food->x && snake->body[0].y == food->y)
+    {
+        // Barrier disappearing
+        for (int x = 0; x < map->width; x++)
+        {
+            for (int y = 0; y < map->width; y++)
+            {
+                if (map->barrier[x][y] > 0)
                     map->barrier[x][y]--;
             }
         }
+        // Generate new barrier
         for (int i = 0; i < snake->length; i++)
         {
             int x = snake->body[i].x, y = snake->body[i].y;
@@ -174,13 +221,13 @@ int eatFood(Snake *snake, Point *food, Map *map)
                 map->barrier[x][y] = config.barrier_delay;
         }
         snake->length++;
-        food->x = rand() % map->width;
-        food->y = rand() % map->height;
-        // BUG: food refresh in the snake body
-        while(errorFood(snake,food, map)){
+        // Generate new food
+        do
+        {
             food->x = rand() % map->width;
             food->y = rand() % map->height;
-        }
+        } while (errorFood(snake, food, map));
+
         return 1;
     }
     return 0;

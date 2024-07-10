@@ -1,6 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-void playGame();
+void playGame(); // Start Game
 
-#endif
+#endif // GAME_H

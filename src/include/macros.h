@@ -19,4 +19,4 @@
 #define BARRIER "■ "
 #define BARRIER_TO_BREAK "x "
 
-#endif
+#endif // MACROS_H

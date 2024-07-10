@@ -3,6 +3,7 @@
 
 #include "structs.h"
 
+// Game logic related functions
 void initGame(Snake *snake, Point *food, Map *map);
 void drawBoarder(Map *map);
 void drawBoard(Snake *snake, Point *food, Map *map);
@@ -11,4 +12,4 @@ int checkCollision(Snake *snake, Map *map);
 int updateDirection(Snake *snake);
 int eatFood(Snake *snake, Point *food, Map *map);
 
-#endif
+#endif // SNAKE_H

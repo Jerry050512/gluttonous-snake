@@ -3,24 +3,28 @@
 
 #include "macros.h"
 
-typedef struct {
+typedef struct
+{
     int x;
     int y;
 } Point;
 
-typedef struct {
+typedef struct
+{
     Point body[400];
     int length;
     int direction;
 } Snake;
 
-typedef struct {
+typedef struct
+{
     int width;
     int height;
     int barrier[MAX_MAP_WIDTH_HEIGHT][MAX_MAP_WIDTH_HEIGHT];
 } Map;
 
-typedef struct {
+typedef struct
+{
     int map_width;
     int map_height;
     int init_length;
@@ -28,4 +32,4 @@ typedef struct {
     int sleep_time;
 } Config;
 
-#endif
+#endif // STRUCTS_H
