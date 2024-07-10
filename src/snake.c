@@ -125,7 +125,7 @@ int checkCollision(Snake *snake, Map *map) {
     return 0;
 }
 
-void updateDirection(Snake *snake) {
+int updateDirection(Snake *snake) {
     int ch = getch();
     switch (ch) {
         case 'w':
@@ -140,7 +140,12 @@ void updateDirection(Snake *snake) {
         case 'd':
             if (snake->direction != LEFT) snake->direction = RIGHT;
             break;
+        case 'q':
+            return 1;
+        default:
+            break;
     }
+    return 0;
 }
 
 int errorFood(Snake *snake,Point *food, Map *map) {
