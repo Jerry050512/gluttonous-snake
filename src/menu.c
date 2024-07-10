@@ -75,7 +75,7 @@ int display_settings_menu() {
         printf("Input Map Size (default max 20x20): ");
         scanf("%dx%d", &width, &height);
         if(width > MAX_MAP_WIDTH_HEIGHT || height > MAX_MAP_WIDTH_HEIGHT ||
-           width <= 0 || height <= 0) {
+           width <= 4 || height <= 4) {
             printf("Invalid Map Size\n");
             break;
         }
